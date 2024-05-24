@@ -15,7 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="data_struct_11.cpp">
+    <ClCompile Include="ex%2911.2.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ex)11.3.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

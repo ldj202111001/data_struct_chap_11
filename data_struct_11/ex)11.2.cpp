@@ -3,7 +3,7 @@
 * 실습날짜: 2024 - 05 -24
 * 학번: 202111001
 * 이름: 이동재
-*/
+*/ //11.2 11.3
 #include <stdio.h>
 #include <stdlib.h>
 #define MAX_VTXS 256
@@ -53,7 +53,37 @@ void print_graph(const char* msg)
 {
     int i, j;
     printf("%s", msg);
-    printf
+    printf("%d\n", vsize);
+    for (i = 0; i < vsize; i++)
+    {
+        printf("%c", vdata[i]);
+        for (j = 0; j < vsize; j++)
+            printf(" %3d", adj[i][j]);
+        printf("\n");
+    }
+}
+
+void print_graph(FILE* fp, const char* msg)
+{
+    int i, j;
+    fprintf(fp, "%s", msg);
+    fprintf(fp, "%d\n", vsize);
+    for (i = 0; i < vsize; i++) 
+    {
+        printf("%c", vdata[i]);
+        for (j = 0; j < vsize; j++)
+            printf(" %3d", adj[i][j]);
+        printf("\n");
+    }
+}
+
+void store_graph(char* filename)
+{
+    FILE* fp = fopen(filename, "w");
+    if (fp != NULL) {
+        print_graph(fp, "");
+        fclose(fp);
+    }
 }
 
 int main()
@@ -67,5 +97,5 @@ int main()
     insert_edge2(1, 2, 1);
     insert_edge2(1, 3, 1);
     insert_edge2(2, 3, 1);
-    //print_graph(stdout, "그래프(인접행렬)\n");
+    print_graph(stdout, "그래프(인접행렬)\n");  // print_graph(stdout, "그래프(인접행렬)\n"); ?
 }
