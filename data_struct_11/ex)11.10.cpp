@@ -1,5 +1,5 @@
 /*
-* 프로그램 내용: 인접 행렬을 이용한 그래프의 깊이 우선 탐색 프로그램
+* 프로그램 내용: 인접 행렬을 이용한 그래프의 연결 성분 탐색 프로그램
 * 실습날짜: 2024 - 05 - 29
 * 학번: 202111001
 * 이름: 이동재
@@ -50,6 +50,20 @@ void insert_edge2(int u, int v, int val)
     adj[u][v] = adj[v][u] = val;
 }
 
+void print_graph(const char* msg)
+{
+    int i, j;
+    printf("%s", msg);
+    printf("%d\n", vsize);
+    for (i = 0; i < vsize; i++)
+    {
+        printf("%c", vdata[i]);
+        for (j = 0; j < vsize; j++)
+            printf(" %3d", adj[i][j]);
+        printf("\n");
+    }
+}
+
 void load_graph(const char* filename)
 {
     int i, j, val, n;
@@ -62,7 +76,7 @@ void load_graph(const char* filename)
 
         for (i = 0; i < n; i++)
         {
-            fscanf(fp, "%s", &str);
+            fscanf(fp, "%s", str);
             insert_vertex(str[0]);
             for (j = 0; j < n; j++)
             {
@@ -84,21 +98,46 @@ void reset_visited()
         visited[i] = 0;
 }
 
-void DFS(int v)
+int label[MAX_VTXS];
+void labelDFS(int v, int color)
 {
     int w;
     visited[v] = 1;
+    label[v] = color;
     printf("%c ", vdata[v]);
     for (w = 0; w < vsize; w++)
         if (adj[v][w] != 0 && visited[w] == 0)
-            DFS(w);
+            labelDFS(w, color);
+}
+
+void find_Connected_Component()
+{
+    int i, count = 0;
+
+    reset_visited();
+    for (i = 0; i < vsize; i++)
+    {
+        if (visited[i] == 0)
+            labelDFS(i, ++count);
+    }
+        
+    printf("\n그래프 연결성분 개수 = %d\n", count);
+    for (i = 0; i < vsize; i++)
+        printf("%c=%d ", vdata[i], label[i]);
+    printf("\n");
 }
 
 int main()
-{ 
-    load_graph("graph.txt");
-    reset_visited();
-    printf("DFS ==> ");
-    DFS(0);
-    printf("\n");
+{
+    int i;
+
+    init_graph();
+    for (i = 0; i < 5; i++)
+        insert_vertex('A' + i);
+    insert_edge2(1, 0, 1);
+    insert_edge2(2, 0, 1);
+    insert_edge2(3, 4, 1);
+
+    print_graph("그래프(연결성분테스트)\n");
+    find_Connected_Component();
 }
