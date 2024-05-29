@@ -3,7 +3,8 @@
 * 실습날짜: 2024 - 05 -24
 * 학번: 202111001
 * 이름: 이동재
-*/ //11.2 11.3
+*/ //11.2 11.3 11.4 11.5 11.6
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #define MAX_VTXS 256

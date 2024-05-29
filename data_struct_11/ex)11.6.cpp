@@ -50,42 +50,19 @@ void insert_edge2(int u, int v, int val)
     adj[u][v] = adj[v][u] = val;
 }
 
-void print_graph(const char* msg)
-{
-    int i, j;
-    printf("%s", msg);
-    printf("%d\n", vsize);
-    for (i = 0; i < vsize; i++)
-    {
-        printf("%c", vdata[i]);
-        for (j = 0; j < vsize; j++)
-            printf(" %3d", adj[i][j]);
-        printf("\n");
-    }
-}
-
-void store_graph(char* filename)
-{
-    FILE* fp = fopen(filename, "w");
-    if (fp != NULL) {
-        print_graph( "");
-        fclose(fp);
-    }
-}
-
 void load_graph(const char* filename)
 {
     int i, j, val, n;
     char str[80];
     FILE* fp = fopen(filename, "r");
-    if (fp != NULL) 
+    if (fp != NULL)
     {
         init_graph();
         fscanf(fp, "%d", &n);
 
-        for (i = 0; i < n; i++) 
+        for (i = 0; i < n; i++)
         {
-            fscanf(fp, "%s", str);
+            fscanf(fp, "%s", &str);
             insert_vertex(str[0]);
             for (j = 0; j < n; j++)
             {
@@ -93,14 +70,35 @@ void load_graph(const char* filename)
                 if (val != 0)
                     insert_edge(i, j, val);
             }
-           
+
         }
         fclose(fp);
     }
 }
 
-int main()
+int visited[MAX_VTXS];
+void reset_visited()
 {
+    int i;
+    for (i = 0; i < vsize; i++)
+        visited[i] = 0;
+}
+
+void DFS(int v)
+{
+    int w;
+    visited[v] = 1;
+    printf("%c ", vdata[v]);
+    for (w = 0; w < vsize; w++)
+        if (adj[v][w] != 0 && visited[w] == 0)
+            DFS(w);
+}
+
+int main()
+{ 
     load_graph("graph.txt");
-    print_graph("그래프(인접행렬)\n");
+    reset_visited();
+    printf("DFS ==> ");
+    DFS(0);
+    printf("\n");
 }
